@@ -1,0 +1,606 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Node Backend Architecture",
+        "description": "Node Backend Architecture"
+    },
+    "host": "localhost:3000",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/Category/save": {
+            "post": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "create Category",
+                "description": "create new Category in system",
+                "parameters": [
+                    {
+                        "name": "Category",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/category"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/Category/remove/{CategoryId}": {
+            "delete": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": " Remove Category ",
+                "description": "Remove Category in system",
+                "parameters": [
+                    {
+                        "name": "CategoryId",
+                        "in": "path",
+                        "type": "integer",
+                        "required": "true"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/Category/edit/{CategoryId}": {
+            "put": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Edit Category",
+                "description": "Edit Category in system",
+                "parameters": [
+                    {
+                        "name": "Category",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/category"
+                        }
+                    },
+                    {
+                        "name": "CategoryId",
+                        "in": "path",
+                        "type": "integer",
+                        "required": "true"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/Category/Get": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "View all Category in system",
+                "description": "show all Category  in system",
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    },
+                    "401": {
+                        "$ref": "#/responses/server_authorization_error"
+                    }
+                }
+            }
+        },
+        "/SubCategory/save": {
+            "post": {
+                "tags": [
+                    "SubCategory"
+                ],
+                "summary": "Create SubCategory",
+                "description": "create new SubCategory in system",
+                "parameters": [
+                    {
+                        "name": "SubCategoryName",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/SubCategory"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/SubCategory/delete/{SUbCategoryId}": {
+            "delete": {
+                "tags": [
+                    "SubCategory"
+                ],
+                "summary": " Remove SubCategory",
+                "description": "Remove SubCategory in system",
+                "parameters": [
+                    {
+                        "name": "SUbCategoryId",
+                        "in": "path",
+                        "type": "integer",
+                        "required": "true"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/SubCategory/update/{SUbCategoryId}": {
+            "put": {
+                "tags": [
+                    "SubCategory"
+                ],
+                "summary": "Edit SubCategory",
+                "description": "Edit SubCategory in system",
+                "parameters": [
+                    {
+                        "name": "CategoryName",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/SubCategory"
+                        }
+                    },
+                    {
+                        "name": "SUbCategoryId",
+                        "in": "path",
+                        "type": "integer",
+                        "required": "true"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/SubCategory/fetchone/{SUbCategoryId}": {
+            "get": {
+                "tags": [
+                    "SubCategory"
+                ],
+                "summary": "fetch single Subcategory",
+                "description": "fetch single Subcategory  in system",
+                "parameters": [
+                    {
+                        "name": "SUbCategoryId",
+                        "in": "path",
+                        "type": "integer",
+                        "required": "true"
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/SubCategory/show": {
+            "get": {
+                "tags": [
+                    "SubCategory"
+                ],
+                "summary": "view all subcategory",
+                "description": "show all Category  in system",
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    },
+                    "401": {
+                        "$ref": "#/responses/server_authorization_error"
+                    }
+                }
+            }
+        },
+        "/Product/save": {
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Create Product",
+                "description": "create new Product in system",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": "true"
+                    },
+                    {
+                        "name": "CId",
+                        "in": "formData",
+                        "type": "integer",
+                        "required": "true"
+                    },
+                    {
+                        "name": "SUbCategoryId",
+                        "in": "formData",
+                        "type": "integer",
+                        "required": "true"
+                    },
+                    {
+                        "name": "Image",
+                        "in": "formData",
+                        "type": "file",
+                        "required": "true"
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/Product/delete/{Id}": {
+            "delete": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Remove Product",
+                "description": "Remove Product in system",
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": "true"
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/Product/update/{Id}": {
+            "put": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Edit Product",
+                "description": "Edit Product in system",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": "true"
+                    },
+                    {
+                        "name": "CId",
+                        "in": "formData",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "SUbCategoryId",
+                        "in": "formData",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "Image",
+                        "in": "formData",
+                        "type": "file",
+                        "required": "true"
+                    },
+                    {
+                        "name": "Id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": "true"
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/product/fetchone/{Id}": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Fetch Single Product",
+                "description": "Fetch Single Product  in system",
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": "true"
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/Product/show": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "View all Product in system",
+                "description": "View all Product in system  in system",
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/notification_server_response"
+                    },
+                    "400": {
+                        "$ref": "#/responses/default_server_error"
+                    },
+                    "401": {
+                        "$ref": "#/responses/server_authorization_error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "server_error_model": {
+            "type": "object",
+            "required": "message",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "server_status_response": {
+            "properties": {
+                "details": {
+                    "properties": {
+                        "status": "string",
+                        "data": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "server_authorization_model": {
+            "type": "object",
+            "required": "message",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "category": {
+            "required": [
+                "username"
+            ],
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "type": "integer"
+                },
+                "updatedBy": {
+                    "type": "integer"
+                }
+            }
+        },
+        "SubCategory": {
+            "required": [
+                "username"
+            ],
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "CategoryId": {
+                    "type": "integer"
+                },
+                "createdBy": {
+                    "type": "integer"
+                },
+                "updatedBy": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Product": {
+            "required": [
+                "username"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "Image": {
+                    "type": "file"
+                },
+                "CId": {
+                    "type": "integer"
+                },
+                "SUbCategoryId": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "responses": {
+        "default_server_error": {
+            "description": "unexpected error",
+            "schema": {
+                "$ref": "#/definitions/server_error_model"
+            }
+        },
+        "notification_server_response": {
+            "description": "The server status will be returned",
+            "schema": {
+                "$ref": "#/definitions/server_status_response"
+            }
+        },
+        "server_authorization_error": {
+            "description": "Authorization Error. Thrown if the user does not have access to resource.",
+            "schema": {
+                "$ref": "#/definitions/server_authorization_model"
+            }
+        }
+    }
+}
