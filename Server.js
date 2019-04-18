@@ -17,6 +17,6 @@ app.use('/images/thumbnail', express.static(ThumbnailImageDir));
 app.use(require('./controller'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.listen(4000);
+let port = process.env.PORT || 4000;
+app.listen(port);
 
