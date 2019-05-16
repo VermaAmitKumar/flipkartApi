@@ -32,7 +32,7 @@ router.post('/login', (req, res) => {
                 Role: data.Role,
                 UserId: data.Id,
                 userAvtar: data.Avtar,
-                token: jwt.sign({ foo: 'bar' }, 'shhhhh')
+                token: jwt.sign({ email: data.Email }, 'shhhhh')
             }
             res.send(JSON.stringify(newdata, null, 2))
         } else {
@@ -42,7 +42,6 @@ router.post('/login', (req, res) => {
             }
             res.json(JSON.stringify(err1, null, 2))
         }
-
     }).catch(err => res.json(JSON.stringify(err)).status(400))
 })
 router.get('/:offset/:limit/:sortByColumn/:sortDirection', (req, res) => {
@@ -67,6 +66,14 @@ router.get('/:offset/:limit/:sortByColumn/:sortDirection', (req, res) => {
             }
             res.send(JSON.stringify(newdata, null, 2))
         })
+    })
+})
+router.get('/get', (req, res) => {
+    res.setHeader("content-type", "application/json")
+    Register.findAll({
+        where: { status: 0 }
+    }).then(data => {
+        res.send(JSON.stringify(data, null, 2))
     })
 })
 router.post('/save', upload.single('Avtar'), (req, res) => {
@@ -100,6 +107,14 @@ router.post('/save', upload.single('Avtar'), (req, res) => {
         res.send(JSON.stringify(data, null, 2))
     })
 })
+router.get('/Get/:id', (req, res) => {
+    res.setHeader("content-type", "application/json")
+    Register.findOne({
+        where: { status: 0, Id: req.params.id }
+    }).then(data => {
+        res.send(JSON.stringify(data, null, 2))
+    })
+})
 router.delete('/remove/:id', (req, res) => {
     let data = {
         status: 1
@@ -109,24 +124,22 @@ router.delete('/remove/:id', (req, res) => {
     })
 })
 router.put('/edit/:id', upload.single('Avtar'), (req, res) => {
-    // if (req.file) {
-    //     let imagePath = path.join(__dirname, '../assets/images/' + req.file.filename);
-    //     let thumbnailImagePath = path.join(__dirname, '../assets/images/thumbnail/' + req.file.filename);
-    //     Jimp.read(imagePath)
-    //         .then(result => {
-    //             return result
-    //                 .resize(100, 70) // resize
-    //                 .quality(100) // set JPEG quality
-    //                 .write(thumbnailImagePath); // save
-    //         })
-    //         .catch(err => {
-    //             console.error(err);
-    //         });
-    //     req.body.Avtar = req.file.filename;
-    // }
-    // else {
-    //     req.body.Avtar = 'defaultPerson.png';
-    // }
+    if (req.file) {
+        let imagePath = path.join(__dirname, '../assets/images/' + req.file.filename);
+        let thumbnailImagePath = path.join(__dirname, '../assets/images/thumbnail/' + req.file.filename);
+        Jimp.read(imagePath)
+            .then(result => {
+                return result
+                    .resize(100, 70) // resize
+                    .quality(100) // set JPEG quality
+                    .write(thumbnailImagePath); // save
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        req.body.Avtar = req.file.filename;
+    }
+
 
     Register.update(req.body, { where: { Id: req.params.id } }).then(data => {
         res.send(JSON.stringify(data, null, 2))

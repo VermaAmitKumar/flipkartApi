@@ -2,6 +2,7 @@
 let express = require('express');
 let router = express.Router();
 var { Product, Category, SubCategory, PrdouctImage } = require('../ModelRelestion/index');
+let Sequelize = require('sequelize')
 let multer = require('multer');
 const path = require('path');
 const Jimp = require('jimp');
@@ -16,7 +17,7 @@ var storage = multer.diskStorage({
 const upload = multer({
     storage
 });
-
+const Op = Sequelize.Op
 router.get('/', (req, res) => {
     res.setHeader("content-type", "application/json")
     res.end("this is productRoute")
@@ -53,7 +54,6 @@ router.get('/:offset/:limit/:sortByColumn/:sortDirection', (req, res) => {
         Product.count({
             where: { status: 0 }
         }).then(data1 => {
-            // res.send(JSON.stringify(data, null, 2))
             let newdata = {
                 count: data1,
                 rows: data
@@ -143,10 +143,7 @@ router.put('/edit/:id', upload.array('ImageName'), (req, res) => {
         let imagedeletedata = req.body.ids
         if (imagedeletedata.length !== 0) {
             imagedeletedata.map(data => {
-                let data2 = {
-                    status: 1
-                };
-                PrdouctImage.update(data2, { where: { ProductImageId: data } })
+                PrdouctImage.destroy({ where: { ProductImageId: data } })
             })
         }
         let files = req.files
@@ -179,4 +176,33 @@ router.put('/edit/:id', upload.array('ImageName'), (req, res) => {
         res.send(JSON.stringify(data, null, 2))
     })
 })
+
+router.get('/Search/:name', (req, res) => {
+    res.setHeader("content-type", "application/json")
+    Product.findAll({
+        where: {
+            name: {
+                [Op.like]: req.params.name
+            }
+        }
+        ,
+        include: [{
+            model: Category,
+            as: "category",
+            attributes: ["CategoryId", "Name", "status", "createdBy", "updatedBy"],
+        }, {
+            model: SubCategory,
+            as: "SUbCategory",
+            attributes: ["SubCategoryId", "Name", "CategoryId", "status", "createdBy", "updatedBy"],
+        },
+        {
+            model: PrdouctImage,
+            as: "productIMAGE",
+        }
+        ]
+    }).then(data => {
+        res.send(JSON.stringify(data, null, 2))
+    })
+})
+
 module.exports = router;

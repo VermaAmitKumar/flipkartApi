@@ -9,6 +9,8 @@ router.get('/', (req, res) => {
 })
 router.get('/Get', (req, res) => {
     res.setHeader("content-type", "application/json")
+    // let token = req.header('Authorization');
+    // if (token) {
     Cart.findAndCountAll({
         where: { status: 0 },
         include: [
@@ -26,6 +28,13 @@ router.get('/Get', (req, res) => {
     }).then(data => {
         res.send(JSON.stringify(data, null, 2))
     })
+    // }else{
+    //     res.status(403);
+    //     let data={
+    //         error:"not aunthenticate"
+    //     }
+    //     res.send(JSON.stringify(data, null, 2))
+    // }
 })
 router.get('/Get/:id', (req, res) => {
     res.setHeader("content-type", "application/json")
@@ -37,14 +46,29 @@ router.get('/Get/:id', (req, res) => {
 })
 router.post('/Save', (req, res) => {
     Cart.findOne({
-        where: { status: 0, ProductId: req.body.ProductId, Id: req.body.Id }
+        where: { status: 0, ProductId: req.body.ProductId, Id: req.body.Id, PaymentStatus: 0 }
     }).then(data => {
         if (data) {
-            req.body.TotalItem = parseInt(data.TotalItem) + 1
-            console.log(req.body)
-            Cart.update(req.body, { where: { CartId: data.CartId } }).then(data => {
+            // Cart.update( { where: { CartId: data.CartId } }).then(data1 => {
+            Cart.findOne({
+                where: { status: 0, CartId: data.CartId },
+                include: [
+                    {
+                        model: Product,
+                        include: {
+                            model: PrdouctImage,
+                            as: "productIMAGE",
+                        }
+                    },
+                    {
+                        model: Register
+                    }
+                ]
+            }).then(data => {
                 res.send(JSON.stringify(data, null, 2))
             })
+
+            // })
         } else {
             let obj = new Cart()
             obj.ProductId = req.body.ProductId;
@@ -56,7 +80,24 @@ router.post('/Save', (req, res) => {
             obj.createdBy = req.body.createdBy;
             obj.updatedBy = req.body.updatedBy;
             obj.save().then(data => {
-                res.send(JSON.stringify(data, null, 2))
+                console.log(data.CartId);
+                Cart.findOne({
+                    where: { status: 0, CartId: data.CartId },
+                    include: [
+                        {
+                            model: Product,
+                            include: {
+                                model: PrdouctImage,
+                                as: "productIMAGE",
+                            }
+                        },
+                        {
+                            model: Register
+                        }
+                    ]
+                }).then(data => {
+                    res.send(JSON.stringify(data, null, 2))
+                })
             })
         }
     })
@@ -71,6 +112,31 @@ router.delete('/remove/:id', (req, res) => {
 })
 router.put('/edit/:id', (req, res) => {
     Cart.update(req.body, { where: { CartId: req.params.id } }).then(data => {
+        res.send(JSON.stringify(data, null, 2))
+    })
+})
+router.get('/orderGet/:id', (req, res) => {
+    res.setHeader("content-type", "application/json")
+    let sortByColumn = "CartId";
+    let sortDirection = "desc";
+    Cart.findAndCountAll({
+        where: { Id: req.params.id },
+        include: [
+            {
+                model: Product,
+                include: {
+                    model: PrdouctImage,
+                    as: "productIMAGE",
+                }
+            },
+            {
+                model: Register
+            }
+        ],
+        order: [
+            [sortByColumn, sortDirection]
+        ]
+    }).then(data => {
         res.send(JSON.stringify(data, null, 2))
     })
 })

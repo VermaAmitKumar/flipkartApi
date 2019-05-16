@@ -7,9 +7,7 @@ const Register = require('../model/RegisterModel')
 const Cart = require('../model/cartModel')
 
 SubCategory.belongsTo(Category, { foreignKey: 'CategoryId' });
-
 PrdouctImage.belongsTo(Product, { foreignKey: 'ProductId' })
-
 Product.belongsTo(Category, { foreignKey: 'CategoryId', as: "category" });
 Product.belongsTo(SubCategory, { foreignKey: 'SubCategoryId', as: "SUbCategory" });
 Product.hasMany(PrdouctImage, { foreignKey: 'ProductId', as: "productIMAGE" })

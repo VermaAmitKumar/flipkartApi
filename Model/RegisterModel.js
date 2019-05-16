@@ -24,7 +24,7 @@ const Register = mysql.define('tbl_Register', {
     },
     Address: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     Role:{
         type: Sequelize.STRING,
