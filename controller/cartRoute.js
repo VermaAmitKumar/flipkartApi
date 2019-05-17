@@ -80,7 +80,6 @@ router.post('/Save', (req, res) => {
             obj.createdBy = req.body.createdBy;
             obj.updatedBy = req.body.updatedBy;
             obj.save().then(data => {
-                console.log(data.CartId);
                 Cart.findOne({
                     where: { status: 0, CartId: data.CartId },
                     include: [
